@@ -2,10 +2,6 @@
 
 Weekend Sales Dashboard for gas sales data (excl. N100), decline-adjusted to present, covering Oct 1, 2025 — Mar 2, 2026.
 
-## View the Dashboard
+## Deployment
 
-Open the rendered dashboard via GitHub Pages:
-
-**https://jjpetro06.github.io/weekend_gas_dashboard/**
-
-> To enable: go to **Settings > Pages** in this repo and set the source to the `main` branch, root folder.
+This repo includes a `render.yaml` blueprint for one-click deployment on [Render](https://render.com). Connect the repo and Render will auto-detect the static site configuration.
