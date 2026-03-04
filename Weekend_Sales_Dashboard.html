@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekend Sales Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg:#f0f6ff; --surface:#ffffff; --surface2:#e8f1fb;
+    --border:#c9ddf0; --border-light:#ddeaf7;
+    --accent:#1a6abf; --accent-pale:#dbeafe;
+    --green:#059669; --red:#e11d48; --amber:#d97706;
+    --orange:#ea580c; --purple:#7c3aed; --teal:#0d9488;
+    --text:#0f2844; --text2:#34567a; --muted:#6b8faf;
+    --mono:'DM Mono',monospace; --sans:'DM Sans',sans-serif; --display:'Barlow Condensed',sans-serif;
+    --shadow:0 1px 4px rgba(26,106,191,0.08),0 4px 16px rgba(26,106,191,0.06);
+    --shadow-lg:0 2px 8px rgba(26,106,191,0.1),0 8px 32px rgba(26,106,191,0.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;}
+  body::before{content:'';position:fixed;inset:0;
+    background-image:linear-gradient(rgba(26,106,191,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,106,191,0.04) 1px,transparent 1px);
+    background-size:32px 32px;pointer-events:none;z-index:0;}
+  .container{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:0 28px 56px;}
+  header{background:linear-gradient(135deg,#1a6abf 0%,#0c4a8f 60%,#082d5e 100%);padding:32px 28px 28px;margin-bottom:36px;position:relative;overflow:hidden;}
+  header::after{content:'';position:absolute;right:-60px;top:-60px;width:340px;height:340px;background:radial-gradient(circle,rgba(255,255,255,0.06) 0%,transparent 70%);border-radius:50%;pointer-events:none;}
+  header::before{content:'';position:absolute;left:0;bottom:0;width:100%;height:3px;background:linear-gradient(90deg,#38bdf8,#1a6abf,transparent);}
+  .header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;position:relative;z-index:1;}
+  .logo-area h1{font-family:var(--display);font-size:clamp(2rem,4.5vw,3.2rem);letter-spacing:0.05em;color:#fff;font-weight:700;line-height:1;}
+  .logo-area h1 span{color:#7dd3fc;}
+  .logo-area p{font-family:var(--mono);font-size:0.68rem;color:rgba(255,255,255,0.55);letter-spacing:0.1em;text-transform:uppercase;margin-top:8px;}
+  .header-pills{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+  .pill{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.08em;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.15);padding:4px 12px;border-radius:20px;white-space:nowrap;}
+  .pill span{color:#7dd3fc;}
+  .pill.note-pill{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);font-style:italic;}
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:36px;}
+  .kpi-card{background:var(--surface);border:1px solid var(--border-light);padding:18px 20px 16px;border-radius:10px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:box-shadow 0.2s,transform 0.2s;animation:fadeUp 0.4s ease both;}
+  .kpi-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px);}
+  .kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0;}
+  .kpi-card.blue::before{background:linear-gradient(90deg,#1a6abf,#38bdf8);}
+  .kpi-card.green::before{background:linear-gradient(90deg,#059669,#34d399);}
+  .kpi-card.purple::before{background:linear-gradient(90deg,#7c3aed,#a78bfa);}
+  .kpi-card.teal::before{background:linear-gradient(90deg,#0d9488,#2dd4bf);}
+  .kpi-card:nth-child(1){animation-delay:.05s;} .kpi-card:nth-child(2){animation-delay:.10s;}
+  .kpi-card:nth-child(3){animation-delay:.15s;} .kpi-card:nth-child(4){animation-delay:.20s;}
+  .kpi-label{font-family:var(--mono);font-size:0.59rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;line-height:1.4;}
+  .kpi-value{font-family:var(--display);font-size:clamp(1.6rem,2.8vw,2.2rem);letter-spacing:0.02em;line-height:1;font-weight:700;}
+  .kpi-card.blue .kpi-value{color:var(--accent);} .kpi-card.green .kpi-value{color:var(--green);}
+  .kpi-card.purple .kpi-value{color:var(--purple);} .kpi-card.teal .kpi-value{color:var(--teal);}
+  .kpi-sub{font-family:var(--mono);font-size:0.62rem;color:var(--muted);margin-top:5px;}
+  .kpi-sub2{font-family:var(--mono);font-size:0.68rem;margin-top:4px;font-weight:500;}
+  .kpi-card.blue .kpi-sub2{color:var(--accent);} .kpi-card.green .kpi-sub2{color:var(--green);}
+  .kpi-card.purple .kpi-sub2{color:var(--purple);} .kpi-card.teal .kpi-sub2{color:var(--teal);}
+  .volume-label{font-family:var(--display);font-size:1.4rem;font-weight:700;letter-spacing:0.06em;color:var(--text);margin-bottom:14px;padding:10px 18px;background:var(--surface);border:1px solid var(--border-light);border-radius:10px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;}
+  .vol-accent{color:var(--orange);}
+  .volume-label.weekly .vol-accent{color:var(--accent);}
+  .section-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+  .section-header h2{font-family:var(--display);font-size:1.35rem;font-weight:700;letter-spacing:0.04em;color:var(--text);}
+  .tag{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;background:var(--accent-pale);color:var(--accent);padding:3px 10px;border-radius:20px;border:1px solid rgba(26,106,191,0.2);font-weight:500;}
+  .tag.orange{background:#fff7ed;color:var(--orange);border-color:rgba(234,88,12,0.25);}
+  .chart-panel{background:var(--surface);border:1px solid var(--border-light);border-radius:12px;padding:24px 24px 20px;box-shadow:var(--shadow);}
+  .chart-legend{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:16px;font-family:var(--mono);font-size:0.67rem;letter-spacing:0.06em;}
+  .legend-item{display:flex;align-items:center;gap:7px;color:var(--text2);}
+  .legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+  .chart-container{width:100%;overflow-x:auto;}
+  canvas{max-width:100%;}
+  .note{font-family:var(--mono);font-size:0.63rem;color:var(--muted);border-left:2px solid var(--border);padding-left:10px;margin-top:14px;line-height:1.8;}
+  .panels-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  @media(max-width:900px){.panels-row{grid-template-columns:1fr;}}
+  .trend-block{margin-bottom:32px;}
+  .scale-bar{background:var(--surface);border:1px solid var(--border-light);border-radius:10px;padding:14px 20px;margin-bottom:24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+  .scale-bar label{font-family:var(--mono);font-size:0.68rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;}
+  .scale-bar span{font-family:var(--mono);font-size:0.72rem;color:var(--accent);font-weight:500;min-width:38px;text-align:center;}
+  .scale-bar input[type=range]{-webkit-appearance:none;height:4px;border-radius:4px;background:var(--border);outline:none;cursor:pointer;width:130px;}
+  .scale-bar input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);border:2px solid #fff;cursor:pointer;}
+  .scale-bar input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent);border:2px solid #fff;cursor:pointer;}
+  .scale-divider{width:1px;height:24px;background:var(--border);flex-shrink:0;}
+  .scale-title{font-family:var(--display);font-size:1rem;font-weight:700;color:var(--text2);letter-spacing:0.04em;white-space:nowrap;}
+  .table-scroll{overflow-x:auto;margin-top:4px;}
+  table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:0.7rem;}
+  thead tr{border-bottom:2px solid var(--border);}
+  th{text-align:right;padding:9px 14px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;font-weight:500;white-space:nowrap;font-size:0.62rem;}
+  th:first-child{text-align:left;}
+  tbody tr{border-bottom:1px solid var(--border-light);transition:background 0.12s;}
+  tbody tr:hover{background:var(--surface2);}
+  td{padding:7px 14px;text-align:right;white-space:nowrap;color:var(--text2);}
+  td:first-child{text-align:left;color:var(--text);font-weight:500;}
+  .td-gs{color:var(--green);font-weight:500;} .td-dec{color:var(--orange);font-weight:500;}
+  .adj-row{background:#fffbeb!important;}
+  .adj-row td:first-child::after{content:' ★';color:var(--amber);font-size:0.65rem;}
+  .explain-cards-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px; }
+  .chart-explain { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px; }
+  .explain-card { border-radius:8px; padding:14px 16px; border:1px solid var(--border-light); }
+  .explain-card.orange-card { background:#fff7ed; border-color:rgba(234,88,12,0.2); }
+  .explain-card.blue-card   { background:#f0f6ff; border-color:rgba(26,106,191,0.2); }
+  .explain-title { font-family:var(--display); font-size:1rem; font-weight:700; letter-spacing:0.04em; margin-bottom:5px; }
+  .explain-card.orange-card .explain-title { color:var(--orange); }
+  .explain-card.blue-card   .explain-title { color:var(--accent); }
+  .explain-body  { font-family:var(--sans); font-size:0.78rem; color:var(--text2); line-height:1.6; }
+  .footnote { font-family:var(--mono); font-size:0.62rem; color:var(--muted); margin-bottom:24px; padding:8px 14px; background:var(--surface); border:1px solid var(--border-light); border-radius:6px; line-height:1.7; }
+  .footnote span { color:var(--text2); font-weight:500; }
+  .footer{border-top:1px solid var(--border);padding-top:18px;font-family:var(--mono);font-size:0.6rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;text-align:center;margin-top:32px;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="logo-area">
+      <h1>Weekend Sales <span>Dashboard</span></h1>
+      <p>Gas Sales excl. N100 &nbsp;/&nbsp; Decline-Adjusted to Present &nbsp;/&nbsp; Oct 1, 2025 — Mar 2, 2026</p>
+    </div>
+    <div class="header-pills">
+      <div class="pill">Decline: <span>7.7% annual · each day declined forward to 2026-03-02</span></div>
+      <div class="pill">Gas Sales: <span>All Wells excluding N100 wells</span></div>
+      <div class="pill note-pill">★ Avg lines exclude the 2 lowest values</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="footnote">* Additional Sales/Revenue figures may not be completely attributable to the weekend program.</div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card purple">
+      <div class="kpi-label">% Above Weekend Decline Adj Avg<br>Last Weekend: <span id="lwd-label" style="color:var(--purple)"></span></div>
+      <div class="kpi-value" id="kpi-wknd-pct"></div>
+      <div class="kpi-sub2" id="kpi-wknd-mcf"></div>
+    </div>
+    <div class="kpi-card teal">
+      <div class="kpi-label">Additional Revenue* — Last Weekend</div>
+      <div class="kpi-value" id="kpi-wknd-rev"></div>
+      <div class="kpi-sub2" id="kpi-wknd-rev-mcf"></div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">% Above Weekly Decline Adj Avg<br>Last Week: <span id="lw-label" style="color:var(--accent)"></span></div>
+      <div class="kpi-value" id="kpi-w-pct"></div>
+      <div class="kpi-sub2" id="kpi-w-mcf"></div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Additional Revenue* — Last Week</div>
+      <div class="kpi-value" id="kpi-w-rev"></div>
+      <div class="kpi-sub2" id="kpi-w-rev-mcf"></div>
+    </div>
+  </div>
+
+  <div class="scale-bar">
+    <div class="scale-title">Chart Scale</div>
+    <div class="scale-divider"></div>
+    <label>Y Min</label>
+    <input type="range" id="scaleMin" min="0" max="100000" step="5000" value="50000">
+    <span id="scaleMinVal">50K</span>
+    <div class="scale-divider"></div>
+    <label>Y Max</label>
+    <input type="range" id="scaleMax" min="115000" max="150000" step="5000" value="120000">
+    <span id="scaleMaxVal">120K</span>
+  </div>
+
+  <div class="trend-block">
+    <div class="volume-label">&#128202; Weekend Volume Trends &nbsp;<span class="vol-accent">· Sat – Sun – Mon ·</span></div>
+    <div class="chart-explain">
+      <div class="explain-card orange-card">
+        <div class="explain-title">Decline-Adjusted</div>
+        <div class="explain-body">Each day's gas sales are mathematically declined forward to Mar 2, 2026 using a 7.7% annual decline rate. This removes the natural production decline from the data so all weeks are on a level playing field — allowing a fair apples-to-apples comparison across time. The dashed avg line excludes the 2 lowest weeks so outlier events (e.g. freeze-offs) don't skew the baseline.</div>
+      </div>
+      <div class="explain-card blue-card">
+        <div class="explain-title">Actual</div>
+        <div class="explain-body">Raw reported gas sales with no adjustments. This is what was physically sold to the pipeline each day. Actual volumes trend lower over time as wells naturally decline, so older weeks will generally look higher than recent weeks without decline adjustment. The dashed avg line excludes the 2 lowest weeks so outlier events (e.g. freeze-offs) don't skew the baseline.</div>
+      </div>
+    </div>
+    <div class="panels-row">
+      <div class="chart-panel">
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#ea580c"></div> Decline-Adjusted Gas Sales</div>
+          <div class="legend-item"><div style="width:20px;height:2px;border-top:2px dashed #1a6abf;flex-shrink:0"></div> Avg</div>
+        </div>
+        <div class="chart-container"><canvas id="weekendDecline" height="270"></canvas></div>
+        <div class="note">Weekend (Sat–Mon) Gas Sales declined forward to 2026-03-02 at 7.7%/yr</div>
+      </div>
+      <div class="chart-panel">
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#1a6abf"></div> Actual Gas Sales</div>
+          <div class="legend-item"><div style="width:20px;height:2px;border-top:2px dashed #1a6abf;flex-shrink:0"></div> Avg</div>
+        </div>
+        <div class="chart-container"><canvas id="weekendActual" height="270"></canvas></div>
+        <div class="note">Actual avg of Sat, Sun, Mon Gas Sales per Tue–Mon week</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trend-block">
+    <div class="volume-label weekly">&#128200; Weekly Volume Trends &nbsp;<span class="vol-accent">· Tue – Mon ·</span></div>
+    <div class="chart-explain">
+      <div class="explain-card orange-card">
+        <div class="explain-title">Decline-Adjusted</div>
+        <div class="explain-body">Full week (Tue–Mon) gas sales declined forward to Mar 2, 2026 at 7.7%/yr. The dashed avg line excludes the 2 lowest weeks so outlier events (e.g. freeze-offs) don't skew the baseline.</div>
+      </div>
+      <div class="explain-card blue-card">
+        <div class="explain-title">Actual</div>
+        <div class="explain-body">Raw weekly gas sales as reported — the daily average across the full Tue–Mon cycle. Use this to see what was actually sold; use the decline-adjusted view to evaluate performance over time. The dashed avg line excludes the 2 lowest weeks so outlier events (e.g. freeze-offs) don't skew the baseline.</div>
+      </div>
+    </div>
+    <div class="panels-row">
+      <div class="chart-panel">
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#ea580c"></div> Decline-Adjusted Gas Sales</div>
+          <div class="legend-item"><div style="width:20px;height:2px;border-top:2px dashed #1a6abf;flex-shrink:0"></div> Avg</div>
+        </div>
+        <div class="chart-container"><canvas id="weeklyDecline" height="270"></canvas></div>
+        <div class="note">Weekly avg Gas Sales declined forward to 2026-03-02 at 7.7%/yr · Tue–Mon cycle</div>
+      </div>
+      <div class="chart-panel">
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div> Actual Gas Sales</div>
+          <div class="legend-item"><div style="width:20px;height:2px;border-top:2px dashed #1a6abf;flex-shrink:0"></div> Avg</div>
+        </div>
+        <div class="chart-container"><canvas id="weeklyActual" height="270"></canvas></div>
+        <div class="note">Actual daily avg Gas Sales per Tue–Mon week</div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="section-mt">
+    <div class="section-header">
+      <h2>Weekend Summary Table</h2>
+      <div class="tag">Gas Sales · Actual &amp; Decline-Adjusted</div>
+    </div>
+    <div class="chart-panel">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Week (Tue – Mon)</th>
+              <th>Avg Gas Sales</th>
+              <th>Adj Gas Sales</th>
+              <th>% vs Adj Avg</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Weekend Sales Dashboard &nbsp;·&nbsp; Oct 2025 – Mar 2026 &nbsp;·&nbsp; MCF &nbsp;·&nbsp;
+    Decline: Gas Sales × (1−0.077)^(days to 2026-03-02 / 365) &nbsp;·&nbsp;
+    ★ = adjusted row &nbsp;·&nbsp; Revenue = MCF × 0.475 × $2.42 + MCF × 0.042 × $17.74
+  </div>
+</div>
+
+<script>
+const WEEKLY      = [{"week_start": "2025-09-30", "label": "09/30 \u2013 10/06", "avg_all_wells": 117970.7, "avg_n100": 5102.6, "avg_net": 112868.1, "avg_decline_net": 109223.3, "days": 6}, {"week_start": "2025-10-07", "label": "10/07 \u2013 10/13", "avg_all_wells": 111099.5, "avg_n100": 5182.7, "avg_net": 105916.8, "avg_decline_net": 102645.6, "days": 7}, {"week_start": "2025-10-14", "label": "10/14 \u2013 10/20", "avg_all_wells": 118320.9, "avg_n100": 5528.7, "avg_net": 112792.2, "avg_decline_net": 109473.3, "days": 7}, {"week_start": "2025-10-21", "label": "10/21 \u2013 10/27", "avg_all_wells": 118669.7, "avg_n100": 5814.6, "avg_net": 112855.1, "avg_decline_net": 109703.0, "days": 7}, {"week_start": "2025-10-28", "label": "10/28 \u2013 11/03", "avg_all_wells": 116987.3, "avg_n100": 5051.5, "avg_net": 111935.9, "avg_decline_net": 108977.9, "days": 7}, {"week_start": "2025-11-04", "label": "11/04 \u2013 11/10", "avg_all_wells": 115730.8, "avg_n100": 4339.7, "avg_net": 111391.1, "avg_decline_net": 108613.7, "days": 7}, {"week_start": "2025-11-11", "label": "11/11 \u2013 11/17", "avg_all_wells": 118210.6, "avg_n100": 5621.7, "avg_net": 112588.9, "avg_decline_net": 109950.0, "days": 7}, {"week_start": "2025-11-18", "label": "11/18 \u2013 11/24", "avg_all_wells": 116106.4, "avg_n100": 5450.6, "avg_net": 110655.8, "avg_decline_net": 108229.2, "days": 7}, {"week_start": "2025-11-25", "label": "11/25 \u2013 12/01", "avg_all_wells": 114491.2, "avg_n100": 5419.3, "avg_net": 109071.9, "avg_decline_net": 106842.4, "days": 7}, {"week_start": "2025-12-02", "label": "12/02 \u2013 12/08", "avg_all_wells": 115690.7, "avg_n100": 4342.8, "avg_net": 111347.8, "avg_decline_net": 109240.9, "days": 7}, {"week_start": "2025-12-09", "label": "12/09 \u2013 12/15", "avg_all_wells": 113964.9, "avg_n100": 5759.1, "avg_net": 108205.8, "avg_decline_net": 106321.8, "days": 7}, {"week_start": "2025-12-16", "label": "12/16 \u2013 12/22", "avg_all_wells": 115074.6, "avg_n100": 6017.3, "avg_net": 109057.3, "avg_decline_net": 107322.4, "days": 7}, {"week_start": "2025-12-23", "label": "12/23 \u2013 12/29", "avg_all_wells": 112263.8, "avg_n100": 5292.0, "avg_net": 106971.8, "avg_decline_net": 105431.9, "days": 7}, {"week_start": "2025-12-30", "label": "12/30 \u2013 01/05", "avg_all_wells": 114258.6, "avg_n100": 5825.5, "avg_net": 108433.1, "avg_decline_net": 107037.7, "days": 7}, {"week_start": "2026-01-06", "label": "01/06 \u2013 01/12", "avg_all_wells": 113585.9, "avg_n100": 5566.2, "avg_net": 108019.7, "avg_decline_net": 106793.1, "days": 7}, {"week_start": "2026-01-13", "label": "01/13 \u2013 01/19", "avg_all_wells": 116925.7, "avg_n100": 5306.4, "avg_net": 111619.3, "avg_decline_net": 110520.9, "days": 7}, {"week_start": "2026-01-20", "label": "01/20 \u2013 01/26", "avg_all_wells": 86878.2, "avg_n100": 5000.9, "avg_net": 81877.4, "avg_decline_net": 81188.9, "days": 7}, {"week_start": "2026-01-27", "label": "01/27 \u2013 02/02", "avg_all_wells": 116367.1, "avg_n100": 4886.6, "avg_net": 111480.5, "avg_decline_net": 110723.9, "days": 7}, {"week_start": "2026-02-03", "label": "02/03 \u2013 02/09", "avg_all_wells": 118736.8, "avg_n100": 5956.4, "avg_net": 112780.4, "avg_decline_net": 112187.0, "days": 7}, {"week_start": "2026-02-10", "label": "02/10 \u2013 02/16", "avg_all_wells": 116853.1, "avg_n100": 5719.6, "avg_net": 111133.5, "avg_decline_net": 110719.3, "days": 7}, {"week_start": "2026-02-17", "label": "02/17 \u2013 02/23", "avg_all_wells": 114952.2, "avg_n100": 3355.8, "avg_net": 111596.4, "avg_decline_net": 111351.2, "days": 7}, {"week_start": "2026-02-24", "label": "02/24 \u2013 03/02", "avg_all_wells": 116896.2, "avg_n100": 4630.1, "avg_net": 112266.1, "avg_decline_net": 112191.6, "days": 7}];
+const WEEKEND_AVG = [{"week_start": "2025-09-30", "label": "09/30 \u2013 10/06", "avg_net": 110593.9, "avg_decline_net": 107058.1, "days": 3}, {"week_start": "2025-10-07", "label": "10/07 \u2013 10/13", "avg_net": 112107.3, "avg_decline_net": 108690.2, "days": 3}, {"week_start": "2025-10-14", "label": "10/14 \u2013 10/20", "avg_net": 109464.6, "avg_decline_net": 106291.6, "days": 3}, {"week_start": "2025-10-21", "label": "10/21 \u2013 10/27", "avg_net": 109993.6, "avg_decline_net": 106969.5, "days": 3}, {"week_start": "2025-10-28", "label": "10/28 \u2013 11/03", "avg_net": 111150.2, "avg_decline_net": 108261.2, "days": 3}, {"week_start": "2025-11-04", "label": "11/04 \u2013 11/10", "avg_net": 110081.1, "avg_decline_net": 107384.2, "days": 3}, {"week_start": "2025-11-11", "label": "11/11 \u2013 11/17", "avg_net": 109292.2, "avg_decline_net": 106778.6, "days": 3}, {"week_start": "2025-11-18", "label": "11/18 \u2013 11/24", "avg_net": 109568.2, "avg_decline_net": 107212.7, "days": 3}, {"week_start": "2025-11-25", "label": "11/25 \u2013 12/01", "avg_net": 104241.1, "avg_decline_net": 102156.8, "days": 3}, {"week_start": "2025-12-02", "label": "12/02 \u2013 12/08", "avg_net": 109845.2, "avg_decline_net": 107814.7, "days": 3}, {"week_start": "2025-12-09", "label": "12/09 \u2013 12/15", "avg_net": 107008.0, "avg_decline_net": 105191.5, "days": 3}, {"week_start": "2025-12-16", "label": "12/16 \u2013 12/22", "avg_net": 106413.0, "avg_decline_net": 104767.4, "days": 3}, {"week_start": "2025-12-23", "label": "12/23 \u2013 12/29", "avg_net": 104016.5, "avg_decline_net": 102565.4, "days": 3}, {"week_start": "2025-12-30", "label": "12/30 \u2013 01/05", "avg_net": 108040.1, "avg_decline_net": 106696.6, "days": 3}, {"week_start": "2026-01-06", "label": "01/06 \u2013 01/12", "avg_net": 106270.1, "avg_decline_net": 105110.3, "days": 3}, {"week_start": "2026-01-13", "label": "01/13 \u2013 01/19", "avg_net": 107920.4, "avg_decline_net": 106905.9, "days": 3}, {"week_start": "2026-01-20", "label": "01/20 \u2013 01/26", "avg_net": 59052.3, "avg_decline_net": 58589.5, "days": 3}, {"week_start": "2026-01-27", "label": "01/27 \u2013 02/02", "avg_net": 107836.3, "avg_decline_net": 107152.0, "days": 3}, {"week_start": "2026-02-03", "label": "02/03 \u2013 02/09", "avg_net": 110831.5, "avg_decline_net": 110297.9, "days": 3}, {"week_start": "2026-02-10", "label": "02/10 \u2013 02/16", "avg_net": 109873.7, "avg_decline_net": 109512.9, "days": 3}, {"week_start": "2026-02-17", "label": "02/17 \u2013 02/23", "avg_net": 109701.7, "avg_decline_net": 109509.5, "days": 3}, {"week_start": "2026-02-24", "label": "02/24 \u2013 03/02", "avg_net": 110826.1, "avg_decline_net": 110801.9, "days": 3}];
+const SUMMARY     = {"total_all": 17522274, "total_n100": 801088, "total_net": 16721186, "avg_daily_net": 109289, "avg_daily_all": 114525, "date_range": "2025-10-01 to 2026-03-02", "days": 153};
+const KPIS        = {"weekly_pct_above": 2.89, "weekly_above_mcf": 22390.0, "weekly_rev": 42420.0, "wknd_pct_above": 3.31, "wknd_above_mcf": 10660.0, "wknd_rev": 20196.0, "last_week_label": "02/24 \u2013 03/02", "last_wknd_label": "02/24 \u2013 03/02", "trimmed_w": 109043.0, "trimmed_wa": 107249.0};
+const PCT_DIFF    = [{"week_start": "2025-09-30", "label": "09/30 \u2013 10/06", "weekday_avg": 111388.5, "weekend_avg": 107058.1, "pct_diff": -3.89, "weekday_days": 3, "weekend_days": 3}, {"week_start": "2025-10-07", "label": "10/07 \u2013 10/13", "weekday_avg": 98112.1, "weekend_avg": 108690.2, "pct_diff": 10.78, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-10-14", "label": "10/14 \u2013 10/20", "weekday_avg": 111859.6, "weekend_avg": 106291.6, "pct_diff": -4.98, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-10-21", "label": "10/21 \u2013 10/27", "weekday_avg": 111753.1, "weekend_avg": 106969.5, "pct_diff": -4.28, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-10-28", "label": "10/28 \u2013 11/03", "weekday_avg": 109515.4, "weekend_avg": 108261.2, "pct_diff": -1.15, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-11-04", "label": "11/04 \u2013 11/10", "weekday_avg": 109535.8, "weekend_avg": 107384.2, "pct_diff": -1.96, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-11-11", "label": "11/11 \u2013 11/17", "weekday_avg": 112328.5, "weekend_avg": 106778.6, "pct_diff": -4.94, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-11-18", "label": "11/18 \u2013 11/24", "weekday_avg": 108991.6, "weekend_avg": 107212.7, "pct_diff": -1.63, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-11-25", "label": "11/25 \u2013 12/01", "weekday_avg": 110356.6, "weekend_avg": 102156.8, "pct_diff": -7.43, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-12-02", "label": "12/02 \u2013 12/08", "weekday_avg": 110310.5, "weekend_avg": 107814.7, "pct_diff": -2.26, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-12-09", "label": "12/09 \u2013 12/15", "weekday_avg": 107169.4, "weekend_avg": 105191.5, "pct_diff": -1.85, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-12-16", "label": "12/16 \u2013 12/22", "weekday_avg": 109238.8, "weekend_avg": 104767.4, "pct_diff": -4.09, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-12-23", "label": "12/23 \u2013 12/29", "weekday_avg": 107581.9, "weekend_avg": 102565.4, "pct_diff": -4.66, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-12-30", "label": "12/30 \u2013 01/05", "weekday_avg": 107293.4, "weekend_avg": 106696.6, "pct_diff": -0.56, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-01-06", "label": "01/06 \u2013 01/12", "weekday_avg": 108055.2, "weekend_avg": 105110.3, "pct_diff": -2.73, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-01-13", "label": "01/13 \u2013 01/19", "weekday_avg": 113232.1, "weekend_avg": 106905.9, "pct_diff": -5.59, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-01-20", "label": "01/20 \u2013 01/26", "weekday_avg": 98138.4, "weekend_avg": 58589.5, "pct_diff": -40.3, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-01-27", "label": "01/27 \u2013 02/02", "weekday_avg": 113402.8, "weekend_avg": 107152.0, "pct_diff": -5.51, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-02-03", "label": "02/03 \u2013 02/09", "weekday_avg": 113603.8, "weekend_avg": 110297.9, "pct_diff": -2.91, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-02-10", "label": "02/10 \u2013 02/16", "weekday_avg": 111624.1, "weekend_avg": 109512.9, "pct_diff": -1.89, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-02-17", "label": "02/17 \u2013 02/23", "weekday_avg": 112732.5, "weekend_avg": 109509.5, "pct_diff": -2.86, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-02-24", "label": "02/24 \u2013 03/02", "weekday_avg": 113233.9, "weekend_avg": 110801.9, "pct_diff": -2.15, "weekday_days": 4, "weekend_days": 3}];
+
+function fmt(n)  { return Math.round(n).toLocaleString(); }
+function fmtD(n) { return '$' + Math.round(n).toLocaleString(); }
+function fmtP(n) { return (n >= 0 ? '+' : '') + n.toFixed(2) + '%'; }
+
+document.getElementById('lwd-label').textContent      = KPIS.last_wknd_label;
+document.getElementById('kpi-wknd-pct').textContent   = fmtP(KPIS.wknd_pct_above);
+document.getElementById('kpi-wknd-mcf').textContent   = fmt(KPIS.wknd_above_mcf) + ' MCF above avg';
+document.getElementById('kpi-wknd-rev').textContent   = fmtD(KPIS.wknd_rev);
+document.getElementById('kpi-wknd-rev-mcf').textContent = fmt(KPIS.wknd_above_mcf) + ' MCF nominal basis';
+document.getElementById('lw-label').textContent       = KPIS.last_week_label;
+document.getElementById('kpi-w-pct').textContent      = fmtP(KPIS.weekly_pct_above);
+document.getElementById('kpi-w-mcf').textContent      = fmt(KPIS.weekly_above_mcf) + ' MCF above avg';
+document.getElementById('kpi-w-rev').textContent      = fmtD(KPIS.weekly_rev);
+document.getElementById('kpi-w-rev-mcf').textContent  = fmt(KPIS.weekly_above_mcf) + ' MCF nominal basis';
+
+Chart.defaults.color       = '#6b8faf';
+Chart.defaults.borderColor = 'rgba(201,221,240,0.7)';
+Chart.defaults.font.family = "'DM Mono', monospace";
+Chart.defaults.font.size   = 10;
+
+const tipBase = {
+  backgroundColor:'#ffffff', borderColor:'#c9ddf0', borderWidth:1,
+  titleColor:'#0f2844', bodyColor:'#34567a',
+  titleFont:{family:"'DM Mono'",size:11,weight:'500'},
+  bodyFont:{family:"'DM Mono'",size:11}, padding:10
+};
+
+const scaleX = { grid:{color:'rgba(201,221,240,0.5)'}, ticks:{maxRotation:40,minRotation:30,font:{size:9},color:'#6b8faf'} };
+const scaleY = {
+  grid:{color:'rgba(201,221,240,0.5)'}, min:50000, max:120000,
+  ticks:{callback:v=>(v/1000).toFixed(0)+'K',color:'#6b8faf'},
+  title:{display:true,text:'MCF / Day (Avg)',color:'#6b8faf',font:{size:10}}
+};
+
+const allCharts = [];
+const wLabels   = WEEKLY.map(w=>w.label);
+const waLabels  = WEEKEND_AVG.map(w=>w.label);
+const adjSet    = new Set(['2026-02-24','2026-02-17']);
+const adjColor  = (ws,base,alt) => adjSet.has(ws) ? alt : base;
+
+function trimmedAvg(arr) {
+  const s=[...arr].sort((a,b)=>a-b), t=s.slice(2);
+  return t.reduce((x,v)=>x+v,0)/t.length;
+}
+function avgLine(avg, len, label) {
+  return {
+    label, type:'line', data:Array(len).fill(avg),
+    borderColor:'#1a6abf', borderWidth:2, borderDash:[6,4],
+    pointRadius:0, pointHoverRadius:0, fill:false, tension:0, order:0
+  };
+}
+
+const wGasVals  = WEEKLY.map(w=>w.avg_net);
+const waGasVals = WEEKEND_AVG.map(w=>w.avg_net);
+const wDecVals  = WEEKLY.map(w=>w.avg_decline_net);
+const waDecVals = WEEKEND_AVG.map(w=>w.avg_decline_net);
+const avgWGas   = trimmedAvg(wGasVals),  avgWaGas = trimmedAvg(waGasVals);
+const avgWDec   = trimmedAvg(wDecVals),  avgWaDec = trimmedAvg(waDecVals);
+
+allCharts.push(new Chart(document.getElementById('weekendDecline'), {
+  type:'bar',
+  data:{ labels:waLabels, datasets:[
+    { label:'Decline-Adj Gas Sales', data:waDecVals,
+       backgroundColor:WEEKEND_AVG.map(w=>adjColor(w.week_start,'rgba(234,88,12,0.75)','rgba(245,158,11,0.75)')),
+       borderColor:WEEKEND_AVG.map(w=>adjColor(w.week_start,'#ea580c','#f59e0b')),
+       borderWidth:1, borderRadius:4, order:1 },
+    avgLine(avgWaDec, waLabels.length, 'Avg')
+  ]},
+  options:{ responsive:true, interaction:{mode:'index',intersect:false},
+    plugins:{ legend:{display:false}, tooltip:{ ...tipBase, callbacks:{ label: c => {
+      if(c.datasetIndex===0) return ` Decline-Adj Gas Sales: ${fmt(c.raw)} MCF/day`;
+      return ` Avg: ${fmt(c.raw)} MCF/day`;
+    } } } }, scales:{ x:scaleX, y:scaleY }
+  }
+}));
+
+allCharts.push(new Chart(document.getElementById('weekendActual'), {
+  type:'bar',
+  data:{ labels:waLabels, datasets:[
+    { label:'Actual Gas Sales', data:waGasVals,
+       backgroundColor:WEEKEND_AVG.map(w=>adjColor(w.week_start,'rgba(26,106,191,0.68)','rgba(245,158,11,0.75)')),
+       borderColor:WEEKEND_AVG.map(w=>adjColor(w.week_start,'#1a6abf','#f59e0b')),
+       borderWidth:1, borderRadius:4, order:1 },
+    avgLine(avgWaGas, waLabels.length, 'Avg')
+  ]},
+  options:{ responsive:true, interaction:{mode:'index',intersect:false},
+    plugins:{ legend:{display:false}, tooltip:{ ...tipBase, callbacks:{ label: c => {
+      if(c.datasetIndex===0) return ` Gas Sales: ${fmt(c.raw)} MCF/day`;
+      return ` Avg: ${fmt(c.raw)} MCF/day`;
+    } } } }, scales:{ x:scaleX, y:scaleY }
+  }
+}));
+
+allCharts.push(new Chart(document.getElementById('weeklyDecline'), {
+  type:'bar',
+  data:{ labels:wLabels, datasets:[
+    { label:'Decline-Adj Gas Sales', data:wDecVals,
+       backgroundColor:WEEKLY.map(w=>adjColor(w.week_start,'rgba(234,88,12,0.75)','rgba(245,158,11,0.75)')),
+       borderColor:WEEKLY.map(w=>adjColor(w.week_start,'#ea580c','#f59e0b')),
+       borderWidth:1, borderRadius:4, order:1 },
+    avgLine(avgWDec, wLabels.length, 'Avg')
+  ]},
+  options:{ responsive:true, interaction:{mode:'index',intersect:false},
+    plugins:{ legend:{display:false}, tooltip:{ ...tipBase, callbacks:{ label: c => {
+      if(c.datasetIndex===0) return ` Decline-Adj Gas Sales: ${fmt(c.raw)} MCF/day`;
+      return ` Avg: ${fmt(c.raw)} MCF/day`;
+    } } } }, scales:{ x:scaleX, y:scaleY }
+  }
+}));
+
+allCharts.push(new Chart(document.getElementById('weeklyActual'), {
+  type:'bar',
+  data:{ labels:wLabels, datasets:[
+    { label:'Actual Gas Sales', data:wGasVals,
+       backgroundColor:WEEKLY.map(w=>adjColor(w.week_start,'rgba(16,185,129,0.72)','rgba(245,158,11,0.75)')),
+       borderColor:WEEKLY.map(w=>adjColor(w.week_start,'#10b981','#f59e0b')),
+       borderWidth:1, borderRadius:4, order:1 },
+    avgLine(avgWGas, wLabels.length, 'Avg')
+  ]},
+  options:{ responsive:true, interaction:{mode:'index',intersect:false},
+    plugins:{ legend:{display:false}, tooltip:{ ...tipBase, callbacks:{ label: c => {
+      if(c.datasetIndex===0) return ` Gas Sales: ${fmt(c.raw)} MCF/day`;
+      return ` Avg: ${fmt(c.raw)} MCF/day`;
+    } } } }, scales:{ x:scaleX, y:scaleY }
+  }
+}));
+
+
+function updateScales() {
+  const minVal=parseInt(document.getElementById('scaleMin').value);
+  const maxVal=parseInt(document.getElementById('scaleMax').value);
+  const safeMin=Math.min(minVal,maxVal-5000), safeMax=Math.max(maxVal,minVal+5000);
+  document.getElementById('scaleMinVal').textContent=(safeMin/1000).toFixed(0)+'K';
+  document.getElementById('scaleMaxVal').textContent=(safeMax/1000).toFixed(0)+'K';
+  allCharts.forEach(c=>{ c.options.scales.y.min=safeMin; c.options.scales.y.max=safeMax; c.update('none'); });
+}
+document.getElementById('scaleMin').addEventListener('input',updateScales);
+document.getElementById('scaleMax').addEventListener('input',updateScales);
+
+const tbody=document.getElementById('table-body');
+WEEKEND_AVG.forEach(w=>{
+  const isAdj=adjSet.has(w.week_start);
+  const tr=document.createElement('tr');
+  if(isAdj) tr.classList.add('adj-row');
+  const pctVsAdj=((w.avg_decline_net - avgWaDec)/avgWaDec*100);
+  const pctStr=(pctVsAdj>=0?'+':'')+pctVsAdj.toFixed(2)+'%';
+  const pctCol=pctVsAdj>=0?'color:var(--green)':'color:var(--red)';
+  tr.innerHTML=`
+    <td>${w.label}</td>
+    <td class="td-gs">${fmt(w.avg_net)}</td>
+    <td class="td-dec">${fmt(w.avg_decline_net)}</td>
+    <td style="font-weight:500;${pctCol}">${pctStr}</td>
+  `;
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>
