@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: weekend-gas-dashboard
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .
