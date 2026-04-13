@@ -110,12 +110,12 @@
   <div class="header-inner">
     <div class="logo-area">
       <h1>Weekend Sales <span>Dashboard</span></h1>
-      <p>Gas Sales excl. N100 &nbsp;/&nbsp; Decline-Adjusted to Present &nbsp;/&nbsp; Oct 1, 2025 — Mar 2, 2026</p>
+      <p>Gas Sales excl. N100 &nbsp;/&nbsp; Decline-Adjusted to Present &nbsp;/&nbsp; Oct 1, 2025 — Apr 12, 2026</p>
     </div>
     <div class="header-pills">
-      <div class="pill">Decline: <span>7.7% annual · each day declined forward to 2026-03-02</span></div>
+      <div class="pill">Decline: <span>7.7% annual · each day declined forward to 2026-04-12</span></div>
       <div class="pill">Gas Sales: <span>All Wells excluding N100 wells</span></div>
-      <div class="pill note-pill">★ Avg lines exclude the 2 lowest values</div>
+      <div class="pill note-pill">★ Avg lines based on 2025 weeks only, excluding the 2 lowest</div>
     </div>
   </div>
 </header>
@@ -126,7 +126,7 @@
 
   <div class="kpi-grid">
     <div class="kpi-card purple">
-      <div class="kpi-label">% Above Weekend Decline Adj Avg<br>Last Weekend: <span id="lwd-label" style="color:var(--purple)"></span></div>
+      <div class="kpi-label">% Above 2025 Weekend Decline Adj Avg<br>Last Weekend: <span id="lwd-label" style="color:var(--purple)"></span></div>
       <div class="kpi-value" id="kpi-wknd-pct"></div>
       <div class="kpi-sub2" id="kpi-wknd-mcf"></div>
     </div>
@@ -136,7 +136,7 @@
       <div class="kpi-sub2" id="kpi-wknd-rev-mcf"></div>
     </div>
     <div class="kpi-card blue">
-      <div class="kpi-label">% Above Weekly Decline Adj Avg<br>Last Week: <span id="lw-label" style="color:var(--accent)"></span></div>
+      <div class="kpi-label">% Above 2025 Weekly Decline Adj Avg<br>Last Week: <span id="lw-label" style="color:var(--accent)"></span></div>
       <div class="kpi-value" id="kpi-w-pct"></div>
       <div class="kpi-sub2" id="kpi-w-mcf"></div>
     </div>
@@ -164,11 +164,11 @@
     <div class="chart-explain">
       <div class="explain-card orange-card">
         <div class="explain-title">Decline-Adjusted</div>
-        <div class="explain-body">Each day's gas sales are mathematically declined forward to Mar 2, 2026 using a 7.7% annual decline rate. This removes the natural production decline from the data so all weeks are on a level playing field — allowing a fair apples-to-apples comparison across time. The dashed avg line excludes the 2 lowest weeks so outlier events (e.g. freeze-offs) don't skew the baseline.</div>
+        <div class="explain-body">Each day's gas sales are mathematically declined forward to Apr 12, 2026 using a 7.7% annual decline rate. This removes the natural production decline from the data so all weeks are on a level playing field — allowing a fair apples-to-apples comparison across time. The dashed avg line is based on 2025 weeks only (excluding the 2 lowest) so outlier events (e.g. freeze-offs) don't skew the baseline.</div>
       </div>
       <div class="explain-card blue-card">
         <div class="explain-title">Actual</div>
-        <div class="explain-body">Raw reported gas sales with no adjustments. This is what was physically sold to the pipeline each day. Actual volumes trend lower over time as wells naturally decline, so older weeks will generally look higher than recent weeks without decline adjustment. The dashed avg line excludes the 2 lowest weeks so outlier events (e.g. freeze-offs) don't skew the baseline.</div>
+        <div class="explain-body">Raw reported gas sales with no adjustments. This is what was physically sold to the pipeline each day. Actual volumes trend lower over time as wells naturally decline, so older weeks will generally look higher than recent weeks without decline adjustment. The dashed avg line is based on 2025 weeks only (excluding the 2 lowest) so outlier events (e.g. freeze-offs) don't skew the baseline.</div>
       </div>
     </div>
     <div class="panels-row">
@@ -178,7 +178,7 @@
           <div class="legend-item"><div style="width:20px;height:2px;border-top:2px dashed #1a6abf;flex-shrink:0"></div> Avg</div>
         </div>
         <div class="chart-container"><canvas id="weekendDecline" height="270"></canvas></div>
-        <div class="note">Weekend (Sat–Mon) Gas Sales declined forward to 2026-03-02 at 7.7%/yr</div>
+        <div class="note">Weekend (Sat–Mon) Gas Sales declined forward to 2026-04-12 at 7.7%/yr</div>
       </div>
       <div class="chart-panel">
         <div class="chart-legend">
@@ -196,11 +196,11 @@
     <div class="chart-explain">
       <div class="explain-card orange-card">
         <div class="explain-title">Decline-Adjusted</div>
-        <div class="explain-body">Full week (Tue–Mon) gas sales declined forward to Mar 2, 2026 at 7.7%/yr. The dashed avg line excludes the 2 lowest weeks so outlier events (e.g. freeze-offs) don't skew the baseline.</div>
+        <div class="explain-body">Full week (Tue–Mon) gas sales declined forward to Apr 12, 2026 at 7.7%/yr. The dashed avg line is based on 2025 weeks only (excluding the 2 lowest) so outlier events (e.g. freeze-offs) don't skew the baseline.</div>
       </div>
       <div class="explain-card blue-card">
         <div class="explain-title">Actual</div>
-        <div class="explain-body">Raw weekly gas sales as reported — the daily average across the full Tue–Mon cycle. Use this to see what was actually sold; use the decline-adjusted view to evaluate performance over time. The dashed avg line excludes the 2 lowest weeks so outlier events (e.g. freeze-offs) don't skew the baseline.</div>
+        <div class="explain-body">Raw weekly gas sales as reported — the daily average across the full Tue–Mon cycle. Use this to see what was actually sold; use the decline-adjusted view to evaluate performance over time. The dashed avg line is based on 2025 weeks only (excluding the 2 lowest) so outlier events (e.g. freeze-offs) don't skew the baseline.</div>
       </div>
     </div>
     <div class="panels-row">
@@ -210,7 +210,7 @@
           <div class="legend-item"><div style="width:20px;height:2px;border-top:2px dashed #1a6abf;flex-shrink:0"></div> Avg</div>
         </div>
         <div class="chart-container"><canvas id="weeklyDecline" height="270"></canvas></div>
-        <div class="note">Weekly avg Gas Sales declined forward to 2026-03-02 at 7.7%/yr · Tue–Mon cycle</div>
+        <div class="note">Weekly avg Gas Sales declined forward to 2026-04-12 at 7.7%/yr · Tue–Mon cycle</div>
       </div>
       <div class="chart-panel">
         <div class="chart-legend">
@@ -248,18 +248,18 @@
   </div>
 
   <div class="footer">
-    Weekend Sales Dashboard &nbsp;·&nbsp; Oct 2025 – Mar 2026 &nbsp;·&nbsp; MCF &nbsp;·&nbsp;
-    Decline: Gas Sales × (1−0.077)^(days to 2026-03-02 / 365) &nbsp;·&nbsp;
+    Weekend Sales Dashboard &nbsp;·&nbsp; Oct 2025 – Apr 2026 &nbsp;·&nbsp; MCF &nbsp;·&nbsp;
+    Decline: Gas Sales × (1−0.077)^(days to 2026-04-12 / 365) &nbsp;·&nbsp;
     ★ = adjusted row &nbsp;·&nbsp; Revenue = MCF × 0.475 × $2.42 + MCF × 0.042 × $17.74
   </div>
 </div>
 
 <script>
-const WEEKLY      = [{"week_start": "2025-09-30", "label": "09/30 \u2013 10/06", "avg_all_wells": 117970.7, "avg_n100": 5102.6, "avg_net": 112868.1, "avg_decline_net": 109223.3, "days": 6}, {"week_start": "2025-10-07", "label": "10/07 \u2013 10/13", "avg_all_wells": 111099.5, "avg_n100": 5182.7, "avg_net": 105916.8, "avg_decline_net": 102645.6, "days": 7}, {"week_start": "2025-10-14", "label": "10/14 \u2013 10/20", "avg_all_wells": 118320.9, "avg_n100": 5528.7, "avg_net": 112792.2, "avg_decline_net": 109473.3, "days": 7}, {"week_start": "2025-10-21", "label": "10/21 \u2013 10/27", "avg_all_wells": 118669.7, "avg_n100": 5814.6, "avg_net": 112855.1, "avg_decline_net": 109703.0, "days": 7}, {"week_start": "2025-10-28", "label": "10/28 \u2013 11/03", "avg_all_wells": 116987.3, "avg_n100": 5051.5, "avg_net": 111935.9, "avg_decline_net": 108977.9, "days": 7}, {"week_start": "2025-11-04", "label": "11/04 \u2013 11/10", "avg_all_wells": 115730.8, "avg_n100": 4339.7, "avg_net": 111391.1, "avg_decline_net": 108613.7, "days": 7}, {"week_start": "2025-11-11", "label": "11/11 \u2013 11/17", "avg_all_wells": 118210.6, "avg_n100": 5621.7, "avg_net": 112588.9, "avg_decline_net": 109950.0, "days": 7}, {"week_start": "2025-11-18", "label": "11/18 \u2013 11/24", "avg_all_wells": 116106.4, "avg_n100": 5450.6, "avg_net": 110655.8, "avg_decline_net": 108229.2, "days": 7}, {"week_start": "2025-11-25", "label": "11/25 \u2013 12/01", "avg_all_wells": 114491.2, "avg_n100": 5419.3, "avg_net": 109071.9, "avg_decline_net": 106842.4, "days": 7}, {"week_start": "2025-12-02", "label": "12/02 \u2013 12/08", "avg_all_wells": 115690.7, "avg_n100": 4342.8, "avg_net": 111347.8, "avg_decline_net": 109240.9, "days": 7}, {"week_start": "2025-12-09", "label": "12/09 \u2013 12/15", "avg_all_wells": 113964.9, "avg_n100": 5759.1, "avg_net": 108205.8, "avg_decline_net": 106321.8, "days": 7}, {"week_start": "2025-12-16", "label": "12/16 \u2013 12/22", "avg_all_wells": 115074.6, "avg_n100": 6017.3, "avg_net": 109057.3, "avg_decline_net": 107322.4, "days": 7}, {"week_start": "2025-12-23", "label": "12/23 \u2013 12/29", "avg_all_wells": 112263.8, "avg_n100": 5292.0, "avg_net": 106971.8, "avg_decline_net": 105431.9, "days": 7}, {"week_start": "2025-12-30", "label": "12/30 \u2013 01/05", "avg_all_wells": 114258.6, "avg_n100": 5825.5, "avg_net": 108433.1, "avg_decline_net": 107037.7, "days": 7}, {"week_start": "2026-01-06", "label": "01/06 \u2013 01/12", "avg_all_wells": 113585.9, "avg_n100": 5566.2, "avg_net": 108019.7, "avg_decline_net": 106793.1, "days": 7}, {"week_start": "2026-01-13", "label": "01/13 \u2013 01/19", "avg_all_wells": 116925.7, "avg_n100": 5306.4, "avg_net": 111619.3, "avg_decline_net": 110520.9, "days": 7}, {"week_start": "2026-01-20", "label": "01/20 \u2013 01/26", "avg_all_wells": 86878.2, "avg_n100": 5000.9, "avg_net": 81877.4, "avg_decline_net": 81188.9, "days": 7}, {"week_start": "2026-01-27", "label": "01/27 \u2013 02/02", "avg_all_wells": 116367.1, "avg_n100": 4886.6, "avg_net": 111480.5, "avg_decline_net": 110723.9, "days": 7}, {"week_start": "2026-02-03", "label": "02/03 \u2013 02/09", "avg_all_wells": 118736.8, "avg_n100": 5956.4, "avg_net": 112780.4, "avg_decline_net": 112187.0, "days": 7}, {"week_start": "2026-02-10", "label": "02/10 \u2013 02/16", "avg_all_wells": 116853.1, "avg_n100": 5719.6, "avg_net": 111133.5, "avg_decline_net": 110719.3, "days": 7}, {"week_start": "2026-02-17", "label": "02/17 \u2013 02/23", "avg_all_wells": 114952.2, "avg_n100": 3355.8, "avg_net": 111596.4, "avg_decline_net": 111351.2, "days": 7}, {"week_start": "2026-02-24", "label": "02/24 \u2013 03/02", "avg_all_wells": 116896.2, "avg_n100": 4630.1, "avg_net": 112266.1, "avg_decline_net": 112191.6, "days": 7}];
-const WEEKEND_AVG = [{"week_start": "2025-09-30", "label": "09/30 \u2013 10/06", "avg_net": 110593.9, "avg_decline_net": 107058.1, "days": 3}, {"week_start": "2025-10-07", "label": "10/07 \u2013 10/13", "avg_net": 112107.3, "avg_decline_net": 108690.2, "days": 3}, {"week_start": "2025-10-14", "label": "10/14 \u2013 10/20", "avg_net": 109464.6, "avg_decline_net": 106291.6, "days": 3}, {"week_start": "2025-10-21", "label": "10/21 \u2013 10/27", "avg_net": 109993.6, "avg_decline_net": 106969.5, "days": 3}, {"week_start": "2025-10-28", "label": "10/28 \u2013 11/03", "avg_net": 111150.2, "avg_decline_net": 108261.2, "days": 3}, {"week_start": "2025-11-04", "label": "11/04 \u2013 11/10", "avg_net": 110081.1, "avg_decline_net": 107384.2, "days": 3}, {"week_start": "2025-11-11", "label": "11/11 \u2013 11/17", "avg_net": 109292.2, "avg_decline_net": 106778.6, "days": 3}, {"week_start": "2025-11-18", "label": "11/18 \u2013 11/24", "avg_net": 109568.2, "avg_decline_net": 107212.7, "days": 3}, {"week_start": "2025-11-25", "label": "11/25 \u2013 12/01", "avg_net": 104241.1, "avg_decline_net": 102156.8, "days": 3}, {"week_start": "2025-12-02", "label": "12/02 \u2013 12/08", "avg_net": 109845.2, "avg_decline_net": 107814.7, "days": 3}, {"week_start": "2025-12-09", "label": "12/09 \u2013 12/15", "avg_net": 107008.0, "avg_decline_net": 105191.5, "days": 3}, {"week_start": "2025-12-16", "label": "12/16 \u2013 12/22", "avg_net": 106413.0, "avg_decline_net": 104767.4, "days": 3}, {"week_start": "2025-12-23", "label": "12/23 \u2013 12/29", "avg_net": 104016.5, "avg_decline_net": 102565.4, "days": 3}, {"week_start": "2025-12-30", "label": "12/30 \u2013 01/05", "avg_net": 108040.1, "avg_decline_net": 106696.6, "days": 3}, {"week_start": "2026-01-06", "label": "01/06 \u2013 01/12", "avg_net": 106270.1, "avg_decline_net": 105110.3, "days": 3}, {"week_start": "2026-01-13", "label": "01/13 \u2013 01/19", "avg_net": 107920.4, "avg_decline_net": 106905.9, "days": 3}, {"week_start": "2026-01-20", "label": "01/20 \u2013 01/26", "avg_net": 59052.3, "avg_decline_net": 58589.5, "days": 3}, {"week_start": "2026-01-27", "label": "01/27 \u2013 02/02", "avg_net": 107836.3, "avg_decline_net": 107152.0, "days": 3}, {"week_start": "2026-02-03", "label": "02/03 \u2013 02/09", "avg_net": 110831.5, "avg_decline_net": 110297.9, "days": 3}, {"week_start": "2026-02-10", "label": "02/10 \u2013 02/16", "avg_net": 109873.7, "avg_decline_net": 109512.9, "days": 3}, {"week_start": "2026-02-17", "label": "02/17 \u2013 02/23", "avg_net": 109701.7, "avg_decline_net": 109509.5, "days": 3}, {"week_start": "2026-02-24", "label": "02/24 \u2013 03/02", "avg_net": 110826.1, "avg_decline_net": 110801.9, "days": 3}];
-const SUMMARY     = {"total_all": 17522274, "total_n100": 801088, "total_net": 16721186, "avg_daily_net": 109289, "avg_daily_all": 114525, "date_range": "2025-10-01 to 2026-03-02", "days": 153};
-const KPIS        = {"weekly_pct_above": 2.89, "weekly_above_mcf": 22390.0, "weekly_rev": 42420.0, "wknd_pct_above": 3.31, "wknd_above_mcf": 10660.0, "wknd_rev": 20196.0, "last_week_label": "02/24 \u2013 03/02", "last_wknd_label": "02/24 \u2013 03/02", "trimmed_w": 109043.0, "trimmed_wa": 107249.0};
-const PCT_DIFF    = [{"week_start": "2025-09-30", "label": "09/30 \u2013 10/06", "weekday_avg": 111388.5, "weekend_avg": 107058.1, "pct_diff": -3.89, "weekday_days": 3, "weekend_days": 3}, {"week_start": "2025-10-07", "label": "10/07 \u2013 10/13", "weekday_avg": 98112.1, "weekend_avg": 108690.2, "pct_diff": 10.78, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-10-14", "label": "10/14 \u2013 10/20", "weekday_avg": 111859.6, "weekend_avg": 106291.6, "pct_diff": -4.98, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-10-21", "label": "10/21 \u2013 10/27", "weekday_avg": 111753.1, "weekend_avg": 106969.5, "pct_diff": -4.28, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-10-28", "label": "10/28 \u2013 11/03", "weekday_avg": 109515.4, "weekend_avg": 108261.2, "pct_diff": -1.15, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-11-04", "label": "11/04 \u2013 11/10", "weekday_avg": 109535.8, "weekend_avg": 107384.2, "pct_diff": -1.96, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-11-11", "label": "11/11 \u2013 11/17", "weekday_avg": 112328.5, "weekend_avg": 106778.6, "pct_diff": -4.94, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-11-18", "label": "11/18 \u2013 11/24", "weekday_avg": 108991.6, "weekend_avg": 107212.7, "pct_diff": -1.63, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-11-25", "label": "11/25 \u2013 12/01", "weekday_avg": 110356.6, "weekend_avg": 102156.8, "pct_diff": -7.43, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-12-02", "label": "12/02 \u2013 12/08", "weekday_avg": 110310.5, "weekend_avg": 107814.7, "pct_diff": -2.26, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-12-09", "label": "12/09 \u2013 12/15", "weekday_avg": 107169.4, "weekend_avg": 105191.5, "pct_diff": -1.85, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-12-16", "label": "12/16 \u2013 12/22", "weekday_avg": 109238.8, "weekend_avg": 104767.4, "pct_diff": -4.09, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-12-23", "label": "12/23 \u2013 12/29", "weekday_avg": 107581.9, "weekend_avg": 102565.4, "pct_diff": -4.66, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2025-12-30", "label": "12/30 \u2013 01/05", "weekday_avg": 107293.4, "weekend_avg": 106696.6, "pct_diff": -0.56, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-01-06", "label": "01/06 \u2013 01/12", "weekday_avg": 108055.2, "weekend_avg": 105110.3, "pct_diff": -2.73, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-01-13", "label": "01/13 \u2013 01/19", "weekday_avg": 113232.1, "weekend_avg": 106905.9, "pct_diff": -5.59, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-01-20", "label": "01/20 \u2013 01/26", "weekday_avg": 98138.4, "weekend_avg": 58589.5, "pct_diff": -40.3, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-01-27", "label": "01/27 \u2013 02/02", "weekday_avg": 113402.8, "weekend_avg": 107152.0, "pct_diff": -5.51, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-02-03", "label": "02/03 \u2013 02/09", "weekday_avg": 113603.8, "weekend_avg": 110297.9, "pct_diff": -2.91, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-02-10", "label": "02/10 \u2013 02/16", "weekday_avg": 111624.1, "weekend_avg": 109512.9, "pct_diff": -1.89, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-02-17", "label": "02/17 \u2013 02/23", "weekday_avg": 112732.5, "weekend_avg": 109509.5, "pct_diff": -2.86, "weekday_days": 4, "weekend_days": 3}, {"week_start": "2026-02-24", "label": "02/24 \u2013 03/02", "weekday_avg": 113233.9, "weekend_avg": 110801.9, "pct_diff": -2.15, "weekday_days": 4, "weekend_days": 3}];
+const WEEKLY = [{"week_start": "2025-09-30", "label": "09/30 – 10/06", "days": 6, "avg_all_wells": 117970.7, "avg_n100": 5102.6, "avg_net": 112868.1, "avg_decline_net": 108244.7}, {"week_start": "2025-10-07", "label": "10/07 – 10/13", "days": 7, "avg_all_wells": 111099.5, "avg_n100": 5182.7, "avg_net": 105916.8, "avg_decline_net": 101725.9}, {"week_start": "2025-10-14", "label": "10/14 – 10/20", "days": 7, "avg_all_wells": 118320.9, "avg_n100": 5528.7, "avg_net": 112792.2, "avg_decline_net": 108492.4}, {"week_start": "2025-10-21", "label": "10/21 – 10/27", "days": 7, "avg_all_wells": 118669.7, "avg_n100": 5814.6, "avg_net": 112855.1, "avg_decline_net": 108720.1}, {"week_start": "2025-10-28", "label": "10/28 – 11/03", "days": 7, "avg_all_wells": 116987.3, "avg_n100": 5051.5, "avg_net": 111935.9, "avg_decline_net": 108001.4}, {"week_start": "2025-11-04", "label": "11/04 – 11/10", "days": 7, "avg_all_wells": 115730.8, "avg_n100": 4339.7, "avg_net": 111391.1, "avg_decline_net": 107640.5}, {"week_start": "2025-11-11", "label": "11/11 – 11/17", "days": 7, "avg_all_wells": 118210.6, "avg_n100": 5621.7, "avg_net": 112588.9, "avg_decline_net": 108964.8}, {"week_start": "2025-11-18", "label": "11/18 – 11/24", "days": 7, "avg_all_wells": 116106.4, "avg_n100": 5450.6, "avg_net": 110655.8, "avg_decline_net": 107259.5}, {"week_start": "2025-11-25", "label": "11/25 – 12/01", "days": 7, "avg_all_wells": 114491.2, "avg_n100": 5419.3, "avg_net": 109071.9, "avg_decline_net": 105885.1}, {"week_start": "2025-12-02", "label": "12/02 – 12/08", "days": 7, "avg_all_wells": 115690.7, "avg_n100": 4342.8, "avg_net": 111347.8, "avg_decline_net": 108262.0}, {"week_start": "2025-12-09", "label": "12/09 – 12/15", "days": 7, "avg_all_wells": 113964.9, "avg_n100": 5759.1, "avg_net": 108205.8, "avg_decline_net": 105369.1}, {"week_start": "2025-12-16", "label": "12/16 – 12/22", "days": 7, "avg_all_wells": 115074.6, "avg_n100": 6017.3, "avg_net": 109057.3, "avg_decline_net": 106360.8}, {"week_start": "2025-12-23", "label": "12/23 – 12/29", "days": 7, "avg_all_wells": 112263.8, "avg_n100": 5292.0, "avg_net": 106971.8, "avg_decline_net": 104487.3}, {"week_start": "2025-12-30", "label": "12/30 – 01/05", "days": 7, "avg_all_wells": 114258.6, "avg_n100": 5825.5, "avg_net": 108433.1, "avg_decline_net": 106078.6}, {"week_start": "2026-01-06", "label": "01/06 – 01/12", "days": 7, "avg_all_wells": 113208.1, "avg_n100": 5357.3, "avg_net": 107850.8, "avg_decline_net": 105670.6}, {"week_start": "2026-01-13", "label": "01/13 – 01/19", "days": 7, "avg_all_wells": 117609.9, "avg_n100": 3899.1, "avg_net": 113710.9, "avg_decline_net": 111584.1}, {"week_start": "2026-01-20", "label": "01/20 – 01/26", "days": 7, "avg_all_wells": 90690.9, "avg_n100": 3544.8, "avg_net": 87146.0, "avg_decline_net": 85637.5}, {"week_start": "2026-01-27", "label": "01/27 – 02/02", "days": 7, "avg_all_wells": 112389.6, "avg_n100": 3802.6, "avg_net": 108586.9, "avg_decline_net": 106886.6}, {"week_start": "2026-02-03", "label": "02/03 – 02/09", "days": 7, "avg_all_wells": 118205.8, "avg_n100": 3798.2, "avg_net": 114407.5, "avg_decline_net": 112786.0}, {"week_start": "2026-02-10", "label": "02/10 – 02/16", "days": 7, "avg_all_wells": 117281.7, "avg_n100": 4151.4, "avg_net": 113130.3, "avg_decline_net": 111698.3}, {"week_start": "2026-02-17", "label": "02/17 – 02/23", "days": 7, "avg_all_wells": 115462.2, "avg_n100": 2087.9, "avg_net": 113374.3, "avg_decline_net": 112111.4}, {"week_start": "2026-02-24", "label": "02/24 – 03/02", "days": 7, "avg_all_wells": 117307.0, "avg_n100": 2498.2, "avg_net": 114808.8, "avg_decline_net": 113705.1}, {"week_start": "2026-03-03", "label": "03/03 – 03/09", "days": 7, "avg_all_wells": 112983.6, "avg_n100": 2823.0, "avg_net": 110160.6, "avg_decline_net": 109268.3}, {"week_start": "2026-03-10", "label": "03/10 – 03/16", "days": 7, "avg_all_wells": 114273.9, "avg_n100": 3561.7, "avg_net": 111412.2, "avg_decline_net": 110684.6}, {"week_start": "2026-03-17", "label": "03/17 – 03/23", "days": 7, "avg_all_wells": 112289.2, "avg_n100": 3263.6, "avg_net": 109725.6, "avg_decline_net": 109176.1}, {"week_start": "2026-03-24", "label": "03/24 – 03/30", "days": 7, "avg_all_wells": 111286.8, "avg_n100": 3545.1, "avg_net": 110141.7, "avg_decline_net": 109762.7}, {"week_start": "2026-03-31", "label": "03/31 – 04/06", "days": 7, "avg_all_wells": 114424.3, "avg_n100": 3169.9, "avg_net": 111254.4, "avg_decline_net": 111035.1}, {"week_start": "2026-04-07", "label": "04/07 – 04/12", "days": 6, "avg_all_wells": 116700.4, "avg_n100": 3746.9, "avg_net": 112953.4, "avg_decline_net": 112891.1}];
+const WEEKEND_AVG = [{"week_start": "2025-09-30", "label": "09/30 – 10/06", "days": 3, "avg_net": 110593.9, "avg_decline_net": 106098.8}, {"week_start": "2025-10-07", "label": "10/07 – 10/13", "days": 3, "avg_net": 112107.3, "avg_decline_net": 107716.3}, {"week_start": "2025-10-14", "label": "10/14 – 10/20", "days": 3, "avg_net": 109464.6, "avg_decline_net": 105339.2}, {"week_start": "2025-10-21", "label": "10/21 – 10/27", "days": 3, "avg_net": 109993.6, "avg_decline_net": 106011.1}, {"week_start": "2025-10-28", "label": "10/28 – 11/03", "days": 3, "avg_net": 111150.2, "avg_decline_net": 107291.2}, {"week_start": "2025-11-04", "label": "11/04 – 11/10", "days": 3, "avg_net": 110081.1, "avg_decline_net": 106422.0}, {"week_start": "2025-11-11", "label": "11/11 – 11/17", "days": 3, "avg_net": 109292.2, "avg_decline_net": 105821.9}, {"week_start": "2025-11-18", "label": "11/18 – 11/24", "days": 3, "avg_net": 109568.2, "avg_decline_net": 106252.1}, {"week_start": "2025-11-25", "label": "11/25 – 12/01", "days": 3, "avg_net": 104241.1, "avg_decline_net": 101241.5}, {"week_start": "2025-12-02", "label": "12/02 – 12/08", "days": 3, "avg_net": 109845.2, "avg_decline_net": 106848.6}, {"week_start": "2025-12-09", "label": "12/09 – 12/15", "days": 3, "avg_net": 107008.0, "avg_decline_net": 104249.0}, {"week_start": "2025-12-16", "label": "12/16 – 12/22", "days": 3, "avg_net": 106413.0, "avg_decline_net": 103828.6}, {"week_start": "2025-12-23", "label": "12/23 – 12/29", "days": 3, "avg_net": 104016.5, "avg_decline_net": 101646.4}, {"week_start": "2025-12-30", "label": "12/30 – 01/05", "days": 3, "avg_net": 108040.1, "avg_decline_net": 105740.6}, {"week_start": "2026-01-06", "label": "01/06 – 01/12", "days": 3, "avg_net": 105875.9, "avg_decline_net": 103782.0}, {"week_start": "2026-01-13", "label": "01/13 – 01/19", "days": 3, "avg_net": 112973.0, "avg_decline_net": 110908.2}, {"week_start": "2026-01-20", "label": "01/20 – 01/26", "days": 3, "avg_net": 58223.7, "avg_decline_net": 57245.7}, {"week_start": "2026-01-27", "label": "01/27 – 02/02", "days": 3, "avg_net": 110743.6, "avg_decline_net": 109053.9}, {"week_start": "2026-02-03", "label": "02/03 – 02/09", "days": 3, "avg_net": 111912.0, "avg_decline_net": 110374.7}, {"week_start": "2026-02-10", "label": "02/10 – 02/16", "days": 3, "avg_net": 111328.5, "avg_decline_net": 109968.1}, {"week_start": "2026-02-17", "label": "02/17 – 02/23", "days": 3, "avg_net": 111545.6, "avg_decline_net": 110351.8}, {"week_start": "2026-02-24", "label": "02/24 – 03/02", "days": 3, "avg_net": 114390.2, "avg_decline_net": 113340.3}, {"week_start": "2026-03-03", "label": "03/03 – 03/09", "days": 3, "avg_net": 107129.8, "avg_decline_net": 106309.6}, {"week_start": "2026-03-10", "label": "03/10 – 03/16", "days": 3, "avg_net": 109858.2, "avg_decline_net": 109193.9}, {"week_start": "2026-03-17", "label": "03/17 – 03/23", "days": 3, "avg_net": 108842.1, "avg_decline_net": 108348.6}, {"week_start": "2026-03-24", "label": "03/24 – 03/30", "days": 3, "avg_net": 110148.9, "avg_decline_net": 109826.0}, {"week_start": "2026-03-31", "label": "03/31 – 04/06", "days": 3, "avg_net": 110758.6, "avg_decline_net": 110588.3}, {"week_start": "2026-04-07", "label": "04/07 – 04/12", "days": 2, "avg_net": 111133.7, "avg_decline_net": 111121.4}];
+const SUMMARY = {"total_all": 22185998, "total_n100": 859134, "total_net": 21326864, "avg_daily_net": 109932, "date_range": "2025-10-01 to 2026-04-12", "days": 194};
+const KPIS = {"weekly_pct_above": 2.11, "weekly_above_mcf": 16069.0, "weekly_rev": 30445.0, "wknd_pct_above": 3.12, "wknd_above_mcf": 10024.0, "wknd_rev": 18991.0, "last_week_label": "03/31 – 04/06", "last_wknd_label": "03/31 – 04/06", "trimmed_w": 108739, "trimmed_wa": 107247};
+const PCT_DIFF = [];
 
 function fmt(n)  { return Math.round(n).toLocaleString(); }
 function fmtD(n) { return '$' + Math.round(n).toLocaleString(); }
@@ -298,8 +298,11 @@ const scaleY = {
 const allCharts = [];
 const wLabels   = WEEKLY.map(w=>w.label);
 const waLabels  = WEEKEND_AVG.map(w=>w.label);
-const adjSet    = new Set(['2026-02-24','2026-02-17']);
-const adjColor  = (ws,base,alt) => adjSet.has(ws) ? alt : base;
+
+// Weeks from 2026-02-17 onward = program weeks (teal); prior = orange
+const programStart = '2026-02-17';
+const barBg   = (ws, base, prog) => ws >= programStart ? prog : base;
+const barBdr  = (ws, base, prog) => ws >= programStart ? prog : base;
 
 function trimmedAvg(arr) {
   const s=[...arr].sort((a,b)=>a-b), t=s.slice(2);
@@ -317,15 +320,21 @@ const wGasVals  = WEEKLY.map(w=>w.avg_net);
 const waGasVals = WEEKEND_AVG.map(w=>w.avg_net);
 const wDecVals  = WEEKLY.map(w=>w.avg_decline_net);
 const waDecVals = WEEKEND_AVG.map(w=>w.avg_decline_net);
-const avgWGas   = trimmedAvg(wGasVals),  avgWaGas = trimmedAvg(waGasVals);
-const avgWDec   = trimmedAvg(wDecVals),  avgWaDec = trimmedAvg(waDecVals);
+
+// Avg lines: 2025 weeks only (ex lowest 2)
+const w2025Gas  = WEEKLY.filter(w=>w.week_start.startsWith('2025')).map(w=>w.avg_net);
+const wa2025Gas = WEEKEND_AVG.filter(w=>w.week_start.startsWith('2025')).map(w=>w.avg_net);
+const w2025Dec  = WEEKLY.filter(w=>w.week_start.startsWith('2025')).map(w=>w.avg_decline_net);
+const wa2025Dec = WEEKEND_AVG.filter(w=>w.week_start.startsWith('2025')).map(w=>w.avg_decline_net);
+const avgWGas   = trimmedAvg(w2025Gas),  avgWaGas = trimmedAvg(wa2025Gas);
+const avgWDec   = trimmedAvg(w2025Dec),  avgWaDec = trimmedAvg(wa2025Dec);
 
 allCharts.push(new Chart(document.getElementById('weekendDecline'), {
   type:'bar',
   data:{ labels:waLabels, datasets:[
     { label:'Decline-Adj Gas Sales', data:waDecVals,
-       backgroundColor:WEEKEND_AVG.map(w=>adjColor(w.week_start,'rgba(234,88,12,0.75)','rgba(245,158,11,0.75)')),
-       borderColor:WEEKEND_AVG.map(w=>adjColor(w.week_start,'#ea580c','#f59e0b')),
+       backgroundColor:WEEKEND_AVG.map(w=>barBg(w.week_start,'rgba(234,88,12,0.75)','rgba(6,182,212,0.75)')),
+       borderColor:WEEKEND_AVG.map(w=>barBdr(w.week_start,'#ea580c','#0891b2')),
        borderWidth:1, borderRadius:4, order:1 },
     avgLine(avgWaDec, waLabels.length, 'Avg')
   ]},
@@ -341,8 +350,8 @@ allCharts.push(new Chart(document.getElementById('weekendActual'), {
   type:'bar',
   data:{ labels:waLabels, datasets:[
     { label:'Actual Gas Sales', data:waGasVals,
-       backgroundColor:WEEKEND_AVG.map(w=>adjColor(w.week_start,'rgba(26,106,191,0.68)','rgba(245,158,11,0.75)')),
-       borderColor:WEEKEND_AVG.map(w=>adjColor(w.week_start,'#1a6abf','#f59e0b')),
+       backgroundColor:WEEKEND_AVG.map(w=>barBg(w.week_start,'rgba(26,106,191,0.68)','rgba(6,182,212,0.75)')),
+       borderColor:WEEKEND_AVG.map(w=>barBdr(w.week_start,'#1a6abf','#0891b2')),
        borderWidth:1, borderRadius:4, order:1 },
     avgLine(avgWaGas, waLabels.length, 'Avg')
   ]},
@@ -358,8 +367,8 @@ allCharts.push(new Chart(document.getElementById('weeklyDecline'), {
   type:'bar',
   data:{ labels:wLabels, datasets:[
     { label:'Decline-Adj Gas Sales', data:wDecVals,
-       backgroundColor:WEEKLY.map(w=>adjColor(w.week_start,'rgba(234,88,12,0.75)','rgba(245,158,11,0.75)')),
-       borderColor:WEEKLY.map(w=>adjColor(w.week_start,'#ea580c','#f59e0b')),
+       backgroundColor:WEEKLY.map(w=>barBg(w.week_start,'rgba(234,88,12,0.75)','rgba(6,182,212,0.75)')),
+       borderColor:WEEKLY.map(w=>barBdr(w.week_start,'#ea580c','#0891b2')),
        borderWidth:1, borderRadius:4, order:1 },
     avgLine(avgWDec, wLabels.length, 'Avg')
   ]},
@@ -375,8 +384,8 @@ allCharts.push(new Chart(document.getElementById('weeklyActual'), {
   type:'bar',
   data:{ labels:wLabels, datasets:[
     { label:'Actual Gas Sales', data:wGasVals,
-       backgroundColor:WEEKLY.map(w=>adjColor(w.week_start,'rgba(16,185,129,0.72)','rgba(245,158,11,0.75)')),
-       borderColor:WEEKLY.map(w=>adjColor(w.week_start,'#10b981','#f59e0b')),
+       backgroundColor:WEEKLY.map(w=>barBg(w.week_start,'rgba(16,185,129,0.72)','rgba(6,182,212,0.75)')),
+       borderColor:WEEKLY.map(w=>barBdr(w.week_start,'#10b981','#0891b2')),
        borderWidth:1, borderRadius:4, order:1 },
     avgLine(avgWGas, wLabels.length, 'Avg')
   ]},
@@ -402,7 +411,7 @@ document.getElementById('scaleMax').addEventListener('input',updateScales);
 
 const tbody=document.getElementById('table-body');
 WEEKEND_AVG.forEach(w=>{
-  const isAdj=adjSet.has(w.week_start);
+  const isAdj = w.week_start >= programStart;
   const tr=document.createElement('tr');
   if(isAdj) tr.classList.add('adj-row');
   const pctVsAdj=((w.avg_decline_net - avgWaDec)/avgWaDec*100);
